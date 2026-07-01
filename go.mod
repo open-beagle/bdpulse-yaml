@@ -1,6 +1,6 @@
 module github.com/open-beagle/bdpulse-yaml
 
-go 1.24
+go 1.24.0
 
 require (
 	github.com/bmatcuk/doublestar v1.3.4
