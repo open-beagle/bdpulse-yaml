@@ -1,4 +1,4 @@
-module github.com/open-beagle/go-yaml
+module github.com/open-beagle/bdpulse-yaml
 
 go 1.24
 
@@ -6,7 +6,7 @@ require (
 	github.com/bmatcuk/doublestar v1.3.4
 	github.com/docker/distribution v2.7.1+incompatible
 	github.com/docker/go-units v0.5.0
-	github.com/drone/drone-runtime v1.0.7-0.20190729202838-87c84080f4a1
+	github.com/open-beagle/bdpulse-runtime v1.0.7-0.20190729202838-87c84080f4a1
 	gopkg.in/alecthomas/kingpin.v2 v2.2.6
 	gopkg.in/yaml.v2 v2.4.0
 	gopkg.in/yaml.v3 v3.0.1

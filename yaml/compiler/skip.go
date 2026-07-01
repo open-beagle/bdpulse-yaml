@@ -1,6 +1,6 @@
 package compiler
 
-import "github.com/open-beagle/go-yaml/yaml"
+import "github.com/open-beagle/bdpulse-yaml/yaml"
 
 // SkipData provides build metadata use to determine if a
 // pipeline step should be skipped.

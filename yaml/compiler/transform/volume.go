@@ -3,8 +3,8 @@ package transform
 import (
 	"strings"
 
-	"github.com/drone/drone-runtime/engine"
-	"github.com/open-beagle/go-yaml/yaml/compiler/internal/rand"
+	"github.com/open-beagle/bdpulse-runtime/engine"
+	"github.com/open-beagle/bdpulse-yaml/yaml/compiler/internal/rand"
 )
 
 // WithVolumes is a transform function that adds a set

@@ -4,7 +4,7 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/open-beagle/go-yaml/yaml"
+	"github.com/open-beagle/bdpulse-yaml/yaml"
 )
 
 var os = map[string]struct{}{

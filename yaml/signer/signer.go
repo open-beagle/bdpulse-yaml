@@ -7,7 +7,7 @@ import (
 	"encoding/hex"
 	"errors"
 
-	"github.com/open-beagle/go-yaml/yaml"
+	"github.com/open-beagle/bdpulse-yaml/yaml"
 
 	goyaml "gopkg.in/yaml.v3"
 )

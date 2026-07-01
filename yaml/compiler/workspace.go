@@ -4,9 +4,9 @@ import (
 	unixpath "path"
 	"strings"
 
-	"github.com/drone/drone-runtime/engine"
-	"github.com/open-beagle/go-yaml/yaml"
-	"github.com/open-beagle/go-yaml/yaml/compiler/internal/rand"
+	"github.com/open-beagle/bdpulse-runtime/engine"
+	"github.com/open-beagle/bdpulse-yaml/yaml"
+	"github.com/open-beagle/bdpulse-yaml/yaml/compiler/internal/rand"
 )
 
 const (

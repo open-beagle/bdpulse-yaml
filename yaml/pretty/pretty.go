@@ -3,7 +3,7 @@ package pretty
 import (
 	"io"
 
-	"github.com/open-beagle/go-yaml/yaml"
+	"github.com/open-beagle/bdpulse-yaml/yaml"
 )
 
 // Print pretty prints the manifest.

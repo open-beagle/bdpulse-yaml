@@ -6,7 +6,7 @@ import (
 	"sort"
 	"strconv"
 
-	"github.com/open-beagle/go-yaml/yaml"
+	"github.com/open-beagle/bdpulse-yaml/yaml"
 )
 
 // TODO rename WriteTag to WriteKey

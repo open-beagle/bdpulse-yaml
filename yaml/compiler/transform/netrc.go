@@ -3,8 +3,8 @@ package transform
 import (
 	"fmt"
 
-	"github.com/drone/drone-runtime/engine"
-	"github.com/open-beagle/go-yaml/yaml/compiler/internal/rand"
+	"github.com/open-beagle/bdpulse-runtime/engine"
+	"github.com/open-beagle/bdpulse-yaml/yaml/compiler/internal/rand"
 )
 
 const (
@@ -29,7 +29,7 @@ func WithNetrc(machine, username, password string) func(*engine.Spec) {
 		if disableNetrcMount == false {
 			// Currently file mounts don't seem to work in Windows so environment
 			// variables are used instead
-			// FIXME: https://github.com/open-beagle/go-yaml/issues/20
+			// FIXME: https://github.com/open-beagle/bdpulse-yaml/issues/20
 			if spec.Platform.OS != "windows" {
 				netrc := generateNetrc(machine, username, password)
 				spec.Files = append(spec.Files, &engine.File{

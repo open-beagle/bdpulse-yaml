@@ -1,6 +1,6 @@
 package pretty
 
-import "github.com/open-beagle/go-yaml/yaml"
+import "github.com/open-beagle/bdpulse-yaml/yaml"
 
 // helper function pretty prints the cron resource.
 func printCron(w writer, v *yaml.Cron) {

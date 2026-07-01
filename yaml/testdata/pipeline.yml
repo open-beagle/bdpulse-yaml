@@ -9,7 +9,7 @@ platform:
 
 workspace:
   base: /go
-  path: src/github.com/drone/go-yaml
+  path: src/github.com/open-beagle/bdpulse-yaml
 
 clone:
   disable: true

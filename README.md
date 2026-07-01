@@ -37,7 +37,7 @@ go-yaml 是一个用于 [Drone CI](https://github.com/drone/drone) 配置文件�
 
 ```bash
 # 克隆仓库
-git clone https://github.com/open-beagle/go-yaml.git
+git clone https://github.com/open-beagle/bdpulse-yaml.git
 cd go-yaml
 
 # 下载依赖
@@ -245,5 +245,5 @@ Apache License 2.0
 ## 相关链接
 
 - [Drone CI](https://github.com/drone/drone)
-- [Drone Runtime](https://github.com/drone/drone-runtime)
+- [Drone Runtime](https://github.com/open-beagle/bdpulse-runtime)
 - [YAML 规范](https://yaml.org/)

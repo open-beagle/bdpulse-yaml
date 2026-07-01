@@ -4,8 +4,8 @@ import (
 	"bytes"
 	"fmt"
 
-	droneyaml "github.com/open-beagle/go-yaml/yaml"
-	"github.com/open-beagle/go-yaml/yaml/pretty"
+	droneyaml "github.com/open-beagle/bdpulse-yaml/yaml"
+	"github.com/open-beagle/bdpulse-yaml/yaml/pretty"
 
 	"gopkg.in/yaml.v3"
 )

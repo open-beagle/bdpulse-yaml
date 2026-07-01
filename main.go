@@ -11,14 +11,14 @@ import (
 	"os"
 	"strings"
 
-	"github.com/drone/drone-runtime/engine"
-	"github.com/open-beagle/go-yaml/yaml"
-	"github.com/open-beagle/go-yaml/yaml/compiler"
-	"github.com/open-beagle/go-yaml/yaml/compiler/transform"
-	"github.com/open-beagle/go-yaml/yaml/converter"
-	"github.com/open-beagle/go-yaml/yaml/linter"
-	"github.com/open-beagle/go-yaml/yaml/pretty"
-	"github.com/open-beagle/go-yaml/yaml/signer"
+	"github.com/open-beagle/bdpulse-runtime/engine"
+	"github.com/open-beagle/bdpulse-yaml/yaml"
+	"github.com/open-beagle/bdpulse-yaml/yaml/compiler"
+	"github.com/open-beagle/bdpulse-yaml/yaml/compiler/transform"
+	"github.com/open-beagle/bdpulse-yaml/yaml/converter"
+	"github.com/open-beagle/bdpulse-yaml/yaml/linter"
+	"github.com/open-beagle/bdpulse-yaml/yaml/pretty"
+	"github.com/open-beagle/bdpulse-yaml/yaml/signer"
 
 	"gopkg.in/alecthomas/kingpin.v2"
 )

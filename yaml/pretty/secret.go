@@ -4,7 +4,7 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/open-beagle/go-yaml/yaml"
+	"github.com/open-beagle/bdpulse-yaml/yaml"
 )
 
 // TODO consider "!!binary |" for secret value

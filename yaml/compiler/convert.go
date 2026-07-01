@@ -3,8 +3,8 @@ package compiler
 import (
 	"strings"
 
-	"github.com/drone/drone-runtime/engine"
-	"github.com/open-beagle/go-yaml/yaml"
+	"github.com/open-beagle/bdpulse-runtime/engine"
+	"github.com/open-beagle/bdpulse-yaml/yaml"
 )
 
 func toIgnoreErr(from *yaml.Container) bool {

@@ -3,7 +3,7 @@ package linter
 import (
 	"errors"
 
-	"github.com/open-beagle/go-yaml/yaml"
+	"github.com/open-beagle/bdpulse-yaml/yaml"
 )
 
 // ErrDuplicatePipelineName is returned when two Pipeline

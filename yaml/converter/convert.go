@@ -4,9 +4,9 @@
 package converter
 
 import (
-	"github.com/open-beagle/go-yaml/yaml/converter/bitbucket"
-	"github.com/open-beagle/go-yaml/yaml/converter/gitlab"
-	"github.com/open-beagle/go-yaml/yaml/converter/legacy"
+	"github.com/open-beagle/bdpulse-yaml/yaml/converter/bitbucket"
+	"github.com/open-beagle/bdpulse-yaml/yaml/converter/gitlab"
+	"github.com/open-beagle/bdpulse-yaml/yaml/converter/legacy"
 )
 
 // Convert converts the yaml configuration file from

@@ -1,7 +1,7 @@
 package pretty
 
 import (
-	"github.com/open-beagle/go-yaml/yaml"
+	"github.com/open-beagle/bdpulse-yaml/yaml"
 )
 
 // helper function to pretty print the pipeline resource.

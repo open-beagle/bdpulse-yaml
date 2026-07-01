@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/drone/drone-runtime/engine"
-	"github.com/open-beagle/go-yaml/yaml"
+	"github.com/open-beagle/bdpulse-runtime/engine"
+	"github.com/open-beagle/bdpulse-yaml/yaml"
 )
 
 func setupScriptWin(spec *engine.Spec, dst *engine.Step, src *yaml.Container) {

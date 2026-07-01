@@ -3,10 +3,10 @@ package compiler
 import (
 	"strings"
 
-	"github.com/drone/drone-runtime/engine"
-	"github.com/open-beagle/go-yaml/yaml"
-	"github.com/open-beagle/go-yaml/yaml/compiler/image"
-	"github.com/open-beagle/go-yaml/yaml/compiler/internal/rand"
+	"github.com/open-beagle/bdpulse-runtime/engine"
+	"github.com/open-beagle/bdpulse-yaml/yaml"
+	"github.com/open-beagle/bdpulse-yaml/yaml/compiler/image"
+	"github.com/open-beagle/bdpulse-yaml/yaml/compiler/internal/rand"
 )
 
 func createStep(spec *engine.Spec, src *yaml.Container) *engine.Step {
@@ -74,7 +74,7 @@ func createStep(spec *engine.Spec, src *yaml.Container) *engine.Step {
 	// appends the environment variables to the
 	// container definition.
 	for key, value := range src.Environment {
-		// fix https://github.com/open-beagle/go-yaml/issues/13
+		// fix https://github.com/open-beagle/bdpulse-yaml/issues/13
 		if value == nil {
 			continue
 		}
@@ -92,7 +92,7 @@ func createStep(spec *engine.Spec, src *yaml.Container) *engine.Step {
 	// appends the settings variables to the
 	// container definition.
 	for key, value := range src.Settings {
-		// fix https://github.com/open-beagle/go-yaml/issues/13
+		// fix https://github.com/open-beagle/bdpulse-yaml/issues/13
 		if value == nil {
 			continue
 		}

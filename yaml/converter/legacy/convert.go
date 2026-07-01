@@ -1,6 +1,6 @@
 package legacy
 
-import yaml "github.com/open-beagle/go-yaml/yaml/converter/legacy/internal"
+import yaml "github.com/open-beagle/bdpulse-yaml/yaml/converter/legacy/internal"
 
 // Convert converts the yaml configuration file from
 // the legacy format to the 1.0+ format.

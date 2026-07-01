@@ -3,7 +3,7 @@ package pretty
 import (
 	"strings"
 
-	"github.com/open-beagle/go-yaml/yaml"
+	"github.com/open-beagle/bdpulse-yaml/yaml"
 )
 
 func isPrimative(v interface{}) bool {

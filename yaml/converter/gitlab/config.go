@@ -1,7 +1,7 @@
 package gitlab
 
 import (
-	"github.com/open-beagle/go-yaml/yaml/converter/internal"
+	"github.com/open-beagle/bdpulse-yaml/yaml/converter/internal"
 )
 
 type (
