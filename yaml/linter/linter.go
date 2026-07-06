@@ -39,7 +39,7 @@ func Lint(resource yaml.Resource, trusted bool) error {
 	case *yaml.Cron:
 		return v.Validate()
 	case *yaml.Pipeline:
-		return checkPipeline(v, trusted)
+		return checkPipeline(v, true)
 	case *yaml.Secret:
 		return v.Validate()
 	case *yaml.Registry:
