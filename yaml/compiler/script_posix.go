@@ -58,6 +58,10 @@ unset CI_NETRC_USERNAME
 unset CI_NETRC_PASSWORD
 unset DRONE_NETRC_USERNAME
 unset DRONE_NETRC_PASSWORD
+if [ -n "$CI_ENV" ]; then
+mkdir -p "$(dirname "$CI_ENV")"
+: > "$CI_ENV"
+fi
 set -e
 %s
 `

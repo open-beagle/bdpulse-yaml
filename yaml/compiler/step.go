@@ -73,21 +73,7 @@ func createStep(spec *engine.Spec, src *yaml.Container) *engine.Step {
 
 	// appends the environment variables to the
 	// container definition.
-	for key, value := range src.Environment {
-		// fix https://github.com/open-beagle/bdpulse-yaml/issues/13
-		if value == nil {
-			continue
-		}
-		if value.Secret != "" {
-			sec := &engine.SecretVar{
-				Name: value.Secret,
-				Env:  key,
-			}
-			dst.Secrets = append(dst.Secrets, sec)
-		} else {
-			dst.Envs[key] = value.Value
-		}
-	}
+	applyEnvironment(dst, src.Environment)
 
 	// appends the settings variables to the
 	// container definition.
@@ -102,7 +88,10 @@ func createStep(spec *engine.Spec, src *yaml.Container) *engine.Step {
 
 		// if the setting parameter is sources from the
 		// secret we create a secret enviornment variable.
-		if value.Secret != "" {
+		literal, isString := value.Value.(string)
+		if secret, ok := secretName(literal); isString && ok {
+			dst.Secrets = append(dst.Secrets, &engine.SecretVar{Name: secret, Env: key})
+		} else if value.Secret != "" {
 			sec := &engine.SecretVar{
 				Name: value.Secret,
 				Env:  key,
@@ -127,6 +116,12 @@ func createStep(spec *engine.Spec, src *yaml.Container) *engine.Step {
 		default:
 			setupScript(spec, dst, src)
 		}
+		envFile := engine.EnvironmentFilePath
+		if spec.Platform.OS == "windows" {
+			envFile = engine.EnvironmentFilePathWindows
+		}
+		dst.Envs[engine.EnvironmentFileVariable] = envFile
+		dst.Envs[engine.DroneEnvironmentFileVariable] = envFile
 	}
 
 	return dst
@@ -181,10 +176,32 @@ func createBuildStep(spec *engine.Spec, src *yaml.Container) *engine.Step {
 		dst.Envs["DOCKER_BUILD_IMAGE_ALIAS"] = image.Expand(alias)
 	}
 
+	applyEnvironment(dst, src.Environment)
+
 	dst.Volumes = append(dst.Volumes, &engine.VolumeMount{
 		Name: "_docker_socket",
 		Path: "/var/run/docker.sock",
 	})
 
 	return dst
+}
+
+func applyEnvironment(dst *engine.Step, environment map[string]*yaml.Variable) {
+	for key, value := range environment {
+		// fix https://github.com/open-beagle/bdpulse-yaml/issues/13
+		if value == nil {
+			continue
+		}
+		if secret, ok := secretName(encode(value.Value)); ok {
+			dst.Secrets = append(dst.Secrets, &engine.SecretVar{Name: secret, Env: key})
+		} else if value.Secret != "" {
+			sec := &engine.SecretVar{
+				Name: value.Secret,
+				Env:  key,
+			}
+			dst.Secrets = append(dst.Secrets, sec)
+		} else {
+			dst.Envs[key] = value.Value
+		}
+	}
 }

@@ -6,7 +6,7 @@ require (
 	github.com/bmatcuk/doublestar v1.3.4
 	github.com/docker/distribution v2.7.1+incompatible
 	github.com/docker/go-units v0.5.0
-	github.com/open-beagle/bdpulse-runtime v1.0.1
+	github.com/open-beagle/bdpulse-runtime v1.1.0
 	gopkg.in/alecthomas/kingpin.v2 v2.2.6
 	gopkg.in/yaml.v2 v2.4.0
 	gopkg.in/yaml.v3 v3.0.1

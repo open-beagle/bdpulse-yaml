@@ -27,6 +27,9 @@ func printPipeline(w writer, v *yaml.Pipeline) {
 	if !isWorkspaceEmpty(v.Workspace) {
 		printWorkspace(w, v.Workspace)
 	}
+	if len(v.Environment) > 0 {
+		printEnviron(w, v.Environment)
+	}
 
 	if len(v.Steps) > 0 {
 		w.WriteTag("steps")

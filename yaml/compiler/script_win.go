@@ -46,6 +46,10 @@ password $Env:CI_NETRC_PASSWORD
 [Environment]::SetEnvironmentVariable("DRONE_NETRC_USERNAME", $null);
 [Environment]::SetEnvironmentVariable("DRONE_NETRC_PASSWORD", $null);
 [Environment]::SetEnvironmentVariable("CI_SCRIPT", $null);
+if ($Env:CI_ENV) {
+  New-Item -ItemType Directory -Force -Path (Split-Path $Env:CI_ENV) | Out-Null;
+  New-Item -ItemType File -Force -Path $Env:CI_ENV | Out-Null;
+}
 $ErrorActionPreference = 'Stop';
 %s
 `

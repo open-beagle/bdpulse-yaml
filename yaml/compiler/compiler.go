@@ -143,7 +143,9 @@ func (c *Compiler) Compile(from *yaml.Pipeline) *engine.Spec {
 	// configuration file, convert to a runtime step
 	// and append to the specification.
 	for _, service := range from.Services {
-		step := createStep(spec, service)
+		resolved := resolveContainer(service, from.Environment)
+		step := createStep(spec, resolved)
+		markEnvironmentOverrides(step, service.Environment)
 		// note that all services are automatically
 		// set to run in detached mode.
 		step.Detach = true
@@ -177,14 +179,16 @@ func (c *Compiler) Compile(from *yaml.Pipeline) *engine.Spec {
 	// configuration file, convert to a runtime step
 	// and append to the specification.
 	for _, container := range from.Steps {
+		resolved := resolveContainer(container, from.Environment)
 		var step *engine.Step
 		switch {
-		case container.Build != nil:
-			step = createBuildStep(spec, container)
-			rename[container.Build.Image] = step.Metadata.UID
+		case resolved.Build != nil:
+			step = createBuildStep(spec, resolved)
+			rename[resolved.Build.Image] = step.Metadata.UID
 		default:
-			step = createStep(spec, container)
+			step = createStep(spec, resolved)
 		}
+		markEnvironmentOverrides(step, container.Environment)
 		setupWorkingDir(container, step, workspace)
 		setupWorkspaceEnv(step, base, dir, workspace)
 		c.setupWorkspaceMount(step, base, dir, workspace)

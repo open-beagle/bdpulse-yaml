@@ -3,6 +3,8 @@ package linter
 import (
 	"errors"
 	"fmt"
+	"regexp"
+	"strings"
 
 	"github.com/open-beagle/bdpulse-yaml/yaml"
 )
@@ -19,6 +21,14 @@ var arch = map[string]struct{}{
 	"ppc64le": struct{}{},
 	"s390x":   struct{}{},
 }
+
+var environmentExpression = regexp.MustCompile(`\$\{\{\s*env\.([A-Za-z_][A-Za-z0-9_]*)\s*\}\}`)
+
+var environmentKey = regexp.MustCompile(`^[A-Za-z_][A-Za-z0-9_]*$`)
+
+var secretExpression = regexp.MustCompile(`\$\{\{\s*secrets\.([A-Za-z_][A-Za-z0-9_]*)\s*\}\}`)
+
+var secretExpressionExact = regexp.MustCompile(`^\$\{\{\s*secrets\.[A-Za-z_][A-Za-z0-9_]*\s*\}\}$`)
 
 // ErrDuplicateStepName is returned when two Pipeline steps
 // have the same name.
@@ -52,6 +62,9 @@ func Lint(resource yaml.Resource, trusted bool) error {
 }
 
 func checkPipeline(pipeline *yaml.Pipeline, trusted bool) error {
+	if err := checkEnvironment(pipeline.Environment); err != nil {
+		return err
+	}
 	err := checkVolumes(pipeline, trusted)
 	if err != nil {
 		return err
@@ -71,7 +84,7 @@ func checkPipeline(pipeline *yaml.Pipeline, trusted bool) error {
 		}
 		names[container.Name] = struct{}{}
 
-		err := checkContainer(container, trusted)
+		err := checkContainer(container, pipeline.Environment, trusted)
 		if err != nil {
 			return err
 		}
@@ -88,7 +101,7 @@ func checkPipeline(pipeline *yaml.Pipeline, trusted bool) error {
 		}
 		names[container.Name] = struct{}{}
 
-		err := checkContainer(container, trusted)
+		err := checkContainer(container, pipeline.Environment, trusted)
 		if err != nil {
 			return err
 		}
@@ -112,7 +125,13 @@ func checkPlatform(platform yaml.Platform) error {
 	return nil
 }
 
-func checkContainer(container *yaml.Container, trusted bool) error {
+func checkContainer(container *yaml.Container, inherited map[string]*yaml.Variable, trusted bool) error {
+	if err := checkEnvironment(container.Environment); err != nil {
+		return err
+	}
+	if err := checkEnvironmentExpressions(container, mergeEnvironment(inherited, container.Environment)); err != nil {
+		return err
+	}
 	err := checkPorts(container.Ports, trusted)
 	if err != nil {
 		return err
@@ -151,6 +170,78 @@ func checkContainer(container *yaml.Container, trusted bool) error {
 		}
 	}
 	return nil
+}
+
+func mergeEnvironment(inherited, local map[string]*yaml.Variable) map[string]*yaml.Variable {
+	if len(inherited) == 0 && len(local) == 0 {
+		return nil
+	}
+	merged := make(map[string]*yaml.Variable, len(inherited)+len(local))
+	for key, value := range inherited {
+		merged[key] = value
+	}
+	for key, value := range local {
+		merged[key] = value
+	}
+	return merged
+}
+
+func checkEnvironment(environment map[string]*yaml.Variable) error {
+	for key, value := range environment {
+		if !environmentKey.MatchString(key) {
+			return fmt.Errorf("linter: invalid environment variable name: %s", key)
+		}
+		if isProtectedEnvironment(key) {
+			return fmt.Errorf("linter: protected environment variable: %s", key)
+		}
+		if value == nil {
+			return fmt.Errorf("linter: invalid environment variable: %s", key)
+		}
+		if secretExpression.MatchString(value.Value) && !isSecretExpression(value.Value) {
+			return fmt.Errorf("linter: secret expression must be the complete environment value: %s", key)
+		}
+	}
+	return nil
+}
+
+func checkEnvironmentExpressions(container *yaml.Container, environment map[string]*yaml.Variable) error {
+	if secretExpression.MatchString(container.Image) {
+		return errors.New("linter: secret expression is not allowed in image")
+	}
+	values := []string{container.Image}
+	for _, parameter := range container.Settings {
+		if parameter == nil {
+			continue
+		}
+		if value, ok := parameter.Value.(string); ok {
+			if secretExpression.MatchString(value) && !isSecretExpression(value) {
+				return errors.New("linter: secret expression must be the complete setting value")
+			}
+			values = append(values, value)
+		}
+	}
+	for _, value := range values {
+		for _, match := range environmentExpression.FindAllStringSubmatch(value, -1) {
+			variable, ok := environment[match[1]]
+			if ok && variable != nil && (variable.Secret != "" || isSecretExpression(variable.Value)) {
+				return fmt.Errorf("linter: environment expression cannot reference secret: %s", match[1])
+			}
+		}
+	}
+	return nil
+}
+
+func isSecretExpression(value string) bool {
+	return secretExpressionExact.MatchString(strings.TrimSpace(value))
+}
+
+func isProtectedEnvironment(key string) bool {
+	for _, prefix := range []string{"DRONE_", "CI_", "AWE_", "PLUGIN_"} {
+		if strings.HasPrefix(key, prefix) {
+			return true
+		}
+	}
+	return false
 }
 
 func checkPorts(ports []*yaml.Port, trusted bool) error {
